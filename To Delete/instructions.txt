@@ -1,0 +1,15 @@
+Create me a GUI for the AngGeneratorFromUP2.py document.
+
+Have inputs oF:
+Selecting the UP2 file location
+ANG Output Path and ANG file name 
+Have a prechecked checkbox that when checked, defaults to have the UP2 directory be the ANG output directory. Have a second field for the ANG output file name which is optional (if no input in the ANG file name, just copy the UP2 name)..
+
+
+PC X, PC Y, and PC Z (ie. corresponding to xstar, ystar, zstar), have these intially default to 0.5, 0.7, and 0.67
+sTilt (default to 70)
+CElev (default to 10)
+
+Have a run button at the bottom.
+
+Follow a similar format to example_gui.py, including using tkinter. For example allow the option to both brows for a up2 of just paste the path in.

@@ -3,6 +3,9 @@ GUI for ANG Generator from UP2 files.
 Wraps the logic from AngGeneratorFromUP2.py with a tkinter interface.
 """
 
+# GUI template modelled from James Lamb GND GUI: https://github.com/PollockGroup/TriBeam_GND
+
+
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import threading

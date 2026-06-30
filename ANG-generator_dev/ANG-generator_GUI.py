@@ -26,9 +26,9 @@ class AngGeneratorGui:
         self.up2_path = tk.StringVar()
         self.ang_output_dir = tk.StringVar()
         self.ang_file_name = tk.StringVar()
-        self.pc_x = tk.StringVar(value="0.5")
-        self.pc_y = tk.StringVar(value="0.7")
-        self.pc_z = tk.StringVar(value="0.67")
+        self.pc_x = tk.StringVar(value="0.6878")
+        self.pc_y = tk.StringVar(value="0.8929")
+        self.pc_z = tk.StringVar(value="1.0691")
         self.s_tilt = tk.StringVar(value="70")
         self.c_elev = tk.StringVar(value="10")
 

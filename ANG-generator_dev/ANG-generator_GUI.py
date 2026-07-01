@@ -31,6 +31,8 @@ class AngGeneratorGui:
         self.pc_z = tk.StringVar(value="1.0691")
         self.s_tilt = tk.StringVar(value="70")
         self.c_elev = tk.StringVar(value="10")
+        self.hfw = tk.StringVar()
+        self.vfw = tk.StringVar()
 
         self.gen_thread = None
         self.is_running = False
@@ -148,6 +150,31 @@ class AngGeneratorGui:
             row=0, column=2, sticky="w", padx=(0, 5)
         )
         ttk.Entry(geom_frame, textvariable=self.c_elev, width=8).grid(row=0, column=3)
+        row += 1
+
+        # === Field of View ===
+        ttk.Separator(main_frame, orient="horizontal").grid(
+            row=row, column=0, columnspan=2, sticky="ew", pady=10
+        )
+        row += 1
+
+        ttk.Label(main_frame, text="Field of View", font=("", 10, "bold")).grid(
+            row=row, column=0, columnspan=2, sticky="w", pady=(0, 5)
+        )
+        row += 1
+
+        fov_frame = ttk.Frame(main_frame)
+        fov_frame.grid(row=row, column=0, columnspan=2, sticky="w", pady=2)
+        ttk.Label(fov_frame, text="HFW (microns):").grid(
+            row=0, column=0, sticky="w", padx=(0, 5)
+        )
+        ttk.Entry(fov_frame, textvariable=self.hfw, width=10).grid(
+            row=0, column=1, padx=(0, 30)
+        )
+        ttk.Label(fov_frame, text="VFW (microns):").grid(
+            row=0, column=2, sticky="w", padx=(0, 5)
+        )
+        ttk.Entry(fov_frame, textvariable=self.vfw, width=10).grid(row=0, column=3)
         row += 1
 
         # === Progress ===
@@ -334,6 +361,16 @@ class AngGeneratorGui:
                 messagebox.showerror("Error", f"{label} must be a number.")
                 return False
 
+        for label, var in [("HFW", self.hfw), ("VFW", self.vfw)]:
+            try:
+                value = float(var.get())
+            except ValueError:
+                messagebox.showerror("Error", f"{label} must be a number.")
+                return False
+            if value <= 0:
+                messagebox.showerror("Error", f"{label} must be greater than zero.")
+                return False
+
         return True
 
     def _resolve_ang_path(self):
@@ -381,6 +418,8 @@ class AngGeneratorGui:
             zstar = float(self.pc_z.get())
             s_tilt = float(self.s_tilt.get())
             c_elev = float(self.c_elev.get())
+            hfw = float(self.hfw.get())
+            vfw = float(self.vfw.get())
 
             self._log_threadsafe(f"UP2 file:   {up2_path}")
             self._log_threadsafe(f"ANG output: {ang_path}")
@@ -459,14 +498,17 @@ class AngGeneratorGui:
                         cols, rows = result_holder[0]
                         self._log_threadsafe(f"User selected: {cols} cols x {rows} rows")
 
-            if dx is None:
-                dx = 1.0
-            if dy is None:
-                dy = 1.0
+            # Step size is derived from the field of view, overriding any
+            # step values stored in the UP2 header.
+            dx = hfw / cols
+            dy = vfw / rows
 
             self._log_threadsafe(
-                f"Scan dimensions: {cols} cols x {rows} rows, "
-                f"dx={dx:.6g}, dy={dy:.6g}"
+                f"Scan dimensions: {cols} cols x {rows} rows"
+            )
+            self._log_threadsafe(
+                f"Field of view: HFW={hfw:.6g} um, VFW={vfw:.6g} um -> "
+                f"dx={dx:.6g} um, dy={dy:.6g} um"
             )
             self._log_threadsafe("Writing ANG file...")
 

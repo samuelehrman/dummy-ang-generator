@@ -1,8 +1,3 @@
-"""
-GUI for ANG Generator from UP2 files.
-Wraps the logic from AngGeneratorFromUP2.py with a tkinter interface.
-"""
-
 # GUI template modelled from James Lamb GND GUI: https://github.com/PollockGroup/TriBeam_GND
 
 
@@ -469,8 +464,8 @@ class AngGeneratorGui:
                     if cols is None or rows is None or cols * rows != num_pats:
                         # Compute candidate dimensions (same logic as AngGeneratorFromUP2.py)
                         tgt_sq = num_pats ** 0.5
-                        min_x = round(tgt_sq * 0.5 ** 0.5)
-                        max_x = round(tgt_sq)
+                        min_x = round(tgt_sq * 0.1 ** 0.5)
+                        max_x = round(tgt_sq * 10 ** 0.5)
                         candidates = [
                             (i, round(num_pats / i))
                             for i in range(min_x, max_x + 1)

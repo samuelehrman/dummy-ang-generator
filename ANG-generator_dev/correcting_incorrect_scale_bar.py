@@ -17,7 +17,7 @@ import traceback
 # ---------------------------------------------------------------------------
 # Inputs -- edit these
 # ---------------------------------------------------------------------------
-ANG_PATH = r"\\128.111.247.210\PollockShare\CurrentResearchers\SamEhrman\20260629_163820_702657_0_movie_movie_Rescan.ang"
+ANG_PATH = r"P:\CurrentResearchers\SamEhrman\Code\dummy-ang-generator\ANG-generator_dev\20260629_163820_702657_0_movie_movie_Rescan.ang"
 HFW = 100.0   # horizontal field width, microns
 VFW = 100.0   # vertical field width, microns
 
